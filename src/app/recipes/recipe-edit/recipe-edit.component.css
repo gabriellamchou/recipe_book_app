@@ -5,3 +5,8 @@ div.row:last-of-type {
 .lista-ingredientes {
     margin-bottom: 10px;
 }
+
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+    border: 1px solid firebrick;
+}

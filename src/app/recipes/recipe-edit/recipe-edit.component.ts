@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { RecipeService } from 'src/app/services/recipe.service';
 
@@ -48,8 +48,11 @@ export class RecipeEditComponent implements OnInit {
       if (recipe['ingredients']) {
         for (let ingredient of recipe.ingredients) {
           const formIngredients = this.fb.group({
-            'name' : ingredient.name,
-            'amount': ingredient.amount
+            'name' : [ingredient.name, Validators.required],
+            'amount': [ingredient.amount, [
+              Validators.required, 
+              Validators.pattern(/^[1-9]+[0-9]*$/)
+            ]]
           })
           this.recipeIngredients.push(formIngredients);
         }
@@ -57,15 +60,27 @@ export class RecipeEditComponent implements OnInit {
     }
     
     this.recipeForm = this.fb.group({
-      'name': recipeName,
-      'imagePath': recipeImagePath,
-      'description': recipeDescription,
+      'name': [recipeName, Validators.required],
+      'imagePath': [recipeImagePath, Validators.required],
+      'description': [recipeDescription, Validators.required],
       'ingredients': this.recipeIngredients
     });
   }
 
   onSubmit() {
     console.log(this.recipeForm);
+  }
+
+  onAddIngredient() {
+    (<FormArray>this.recipeForm.get('ingredients')).push(
+      new FormGroup({
+        'name' : new FormControl(null, Validators.required),
+        'amount' : new FormControl(null, [
+          Validators.required, 
+          Validators.pattern(/^[1-9]+[0-9]*$/)
+        ])
+      })
+    )
   }
 
   get recipeIngredients() {
