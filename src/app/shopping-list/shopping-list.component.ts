@@ -6,17 +6,15 @@ import { ShoppingListService } from '../services/shopping-list.service';
 
 @Component({
   selector: 'app-shoping-list',
-  templateUrl: './shoping-list.component.html',
-  styleUrls: ['./shoping-list.component.css']
+  templateUrl: './shopping-list.component.html',
+  styleUrls: ['./shopping-list.component.css']
 })
 export class ShopingListComponent implements OnInit, OnDestroy {
 
   ingredients: Ingredient[] = [];
   private subscription!: Subscription;
 
-  constructor(private slService: ShoppingListService) { 
-    
-  }
+  constructor(private slService: ShoppingListService) {}
 
   ngOnInit(): void {
     this.ingredients = this.slService.getIngredients();
@@ -29,6 +27,11 @@ export class ShopingListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  
+  onEditItem(index: number) {
+    this.slService.startedEditing.next(index);
   }
 
 }
