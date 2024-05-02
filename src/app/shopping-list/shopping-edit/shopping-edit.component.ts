@@ -32,6 +32,14 @@ export class ShopingListEditComponent implements OnInit, OnDestroy {
           });
         }
       );
+
+    this.subscription = this.slService.startedDeletion
+      .subscribe(
+        (index: number) => {
+          this.editedItemIndex = index;
+
+        }
+      )
   }
 
   onSubmit (form: NgForm) {
@@ -39,11 +47,21 @@ export class ShopingListEditComponent implements OnInit, OnDestroy {
     const newIngredient = new Ingredient(value.name, value.amount);
     if(this.editMode) {
       this.slService.updateIngredient(this.editedItemIndex, newIngredient);
-      this.editMode = false;
     } else {
       this.slService.addIngredient(newIngredient);
     }
+    this.editMode = false;
     this.slForm.reset();
+  }
+
+  onClear() {
+    this.editMode = false;
+    this.slForm.reset();
+  }
+
+  onDelete() {
+    this.slService.deleteIngredient(this.editedItemIndex);
+    this.onClear;
   }
 
   ngOnDestroy(): void {
