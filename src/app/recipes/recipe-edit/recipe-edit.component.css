@@ -1,3 +1,7 @@
 div.row:last-of-type {
     margin-bottom: 30px;
 }
+
+.lista-ingredientes {
+    margin-bottom: 10px;
+}
