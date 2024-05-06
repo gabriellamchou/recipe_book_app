@@ -1,5 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
+import { DataStorageService } from '../services/data-storage.service';
+import { RecipeService } from '../services/recipe.service';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -7,6 +10,16 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class HeaderComponent {
 
-  constructor() { }
+  constructor(private dataStorageService: DataStorageService,
+              private recipeService: RecipeService
+  ) { }
+
+  onSaveData() {
+    this.dataStorageService.storeRecipes();
+  }
+
+  onFetchData() {
+    this.dataStorageService.fetchRecipes().subscribe();
+  }
 
 }
