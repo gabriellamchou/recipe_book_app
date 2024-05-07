@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { map, tap, take, exhaustMap } from "rxjs";
+import { map, tap, } from "rxjs";
 
 import { RecipeService } from "./recipe.service";
 import { Recipe } from "../recipes/recipe.model";
